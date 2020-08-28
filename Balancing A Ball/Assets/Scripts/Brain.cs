@@ -81,12 +81,12 @@ public class Brain : MonoBehaviour
         double maxQ = qs.Max();
         int maxQindex = qs.ToList().IndexOf(maxQ);
         explorerate = Mathf.Clamp(explorerate - exploredecay, minexplorerate, maxeplorerate);
-       /*NO NEED OF EXPLORING IN THIS CASE AS ENVIRONMENT IS REALLY VERY SMALL
-        *if(Random.Range(0,100)<explorerate)
-        {
-            maxQindex = Random.Range(0, 2);
-        }*/
-        if(maxQindex==0)
+        /*NO NEED OF EXPLORING IN THIS CASE AS ENVIRONMENT IS REALLY VERY SMALL
+         *if(Random.Range(0,100)<explorerate)
+         {
+             maxQindex = Random.Range(0, 2);
+         }*/
+        if (maxQindex == 0)
         {
             this.transform.Rotate(Vector3.right, tiltspeed * (float)qs[maxQindex]);
         }
@@ -94,9 +94,13 @@ public class Brain : MonoBehaviour
         {
             this.transform.Rotate(Vector3.right, -tiltspeed * (float)qs[maxQindex]);
         }
-        if(ball.GetComponent<BallState>().dropped)
+        if (ball.GetComponent<BallState>().dropped)
         {
             reward = -1;
+        }
+        else
+        {
+            reward = 0.1f;
         }
         Replay lastmemory = new Replay(this.transform.rotation.x, ball.transform.position.z, ball.GetComponent<Rigidbody>().angularVelocity.x, reward);
         if(replaymemory.Count>mcapacity)
